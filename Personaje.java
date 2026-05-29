@@ -1,31 +1,45 @@
-public abstract class Personaje{
-    // cordenadas para que el personaje se pueda mover dentro del mapa 
+package com.mycompany.pacman;
+
+public abstract class Personaje {
+
     protected int x;
     protected int y;
-    // que tan rapido se puede mover el personaje 
     protected int velocidad;
-    // direccion del personaje 
-    protected String direccion;
 
-    // constructor
-    public Personaje(int x, int y, int velocidad){
+    // CAMBIO: antes solo había "direccion".
+    // Ahora se usan dos direcciones para controlar mejor el movimiento.
+    protected String direccionActual;
+    protected String direccionDeseada;
+
+    public Personaje(int x, int y, int velocidad) {
         this.x = x;
         this.y = y;
         this.velocidad = velocidad;
-        this.direccion = "QUIETO";
+        this.direccionActual = "QUIETO";
+        this.direccionDeseada = "QUIETO";
     }
 
-    // metodo abstracto ya que todos los personajes deben moverse
+    // Cada personaje se mueve de forma distinta.
     public abstract void mover(int[][] mapa);
 
-    // getters y setters 
-    public int getx(){
-        rerutn x;
+    // CAMBIO: se corrigió "rerutn" por "return".
+    public int getX() {
+        return x;
     }
-    public int gety(){
-        rerutn y;
+
+    public int getY() {
+        return y;
     }
-    public void setdireccion(String direccion){
-        this.direccion = direccion;
+
+    public int getVelocidad() {
+        return velocidad;
+    }
+
+    public void setDireccionDeseada(String direccion) {
+        this.direccionDeseada = direccion;
+    }
+
+    public String getDireccionActual() {
+        return direccionActual;
     }
 }
