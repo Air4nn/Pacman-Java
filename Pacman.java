@@ -1,23 +1,28 @@
-public class Pacman extends Personaje{
+package com.mycompany.pacman;
+
+public class Pacman extends Personaje {
+
     private int vidas;
     private int puntaje;
 
-    public Pacman(int x, int y){
-        super(x,y,1);
+    public Pacman(int x, int y) {
+        super(x, y, 1);
         this.vidas = 3;
         this.puntaje = 0;
+        this.direccionActual = "DERECHA";
+        this.direccionDeseada = "DERECHA";
     }
-    
-    // metodo que se llama constantemente
-    public void mover() {
 
-        // intentar cambiar dirección si es posible
-        if (puedeMover(direccionDeseada)) {
+    // CAMBIO: ahora recibe el mapa como parámetro.
+    // Antes usaba "mapa" sin estar definido dentro de la clase.
+    @Override
+    public void mover(int[][] mapa) {
+
+        if (puedeMover(mapa, direccionDeseada)) {
             direccionActual = direccionDeseada;
         }
 
-        // mover en la dirección actual si no hay muro
-        if (puedeMover(direccionActual)) {
+        if (puedeMover(mapa, direccionActual)) {
             switch (direccionActual) {
                 case "ARRIBA":
                     y--;
@@ -35,8 +40,7 @@ public class Pacman extends Personaje{
         }
     }
 
-    // verifica si puede moverse en cierta dirección
-    private boolean puedeMover(String direccion) {
+    private boolean puedeMover(int[][] mapa, String direccion) {
 
         int nuevaX = x;
         int nuevaY = y;
@@ -56,24 +60,28 @@ public class Pacman extends Personaje{
                 break;
         }
 
-        // validar límites del mapa
         if (nuevaY < 0 || nuevaY >= mapa.length ||
             nuevaX < 0 || nuevaX >= mapa[0].length) {
             return false;
         }
 
-        // 1 = pared
-        return mapa[nuevaY][nuevaX] != 1;
+        // CAMBIO: se usa Mapa.PARED en vez del número 1.
+        return mapa[nuevaY][nuevaX] != Mapa.PARED;
     }
 
-    // setters y getters 
-    public void setDireccionDeseada(String direccion) {
-        this.direccionDeseada = direccion;
+    public void sumarPuntos(int puntos) {
+        this.puntaje += puntos;
     }
-    public int getX() { 
-        return x; 
+
+    public void perderVida() {
+        this.vidas--;
     }
-    public int getY() { 
-        return y; 
+
+    public int getVidas() {
+        return vidas;
+    }
+
+    public int getPuntaje() {
+        return puntaje;
     }
 }
