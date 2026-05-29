@@ -1,46 +1,67 @@
 package com.mycompany.pacman;
 
 public class Mapa {
-    
-    // Constantes públicas para identificar los elementos del juego
+
+    // CAMBIO: el mapa solo guarda elementos fijos del escenario.
+    // Se quitaron PACMAN y FANTASMAS de la matriz.
     public static final int VACIO = 0;
     public static final int PARED = 1;
     public static final int COMIDA = 2;
-    public static final int PACMAN = 3;
-    public static final int FANTASMAS = 4;
 
-    // Matriz encapsulada que representa el laberinto
     private int[][] matriz;
 
     public Mapa() {
-        // Inicializamos la matriz de forma dinámica utilizando tus constantes textualmente
         matriz = new int[][] {
-            {PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED},
-            {PARED, PACMAN, COMIDA, COMIDA, COMIDA, COMIDA, COMIDA, PARED, COMIDA, COMIDA, COMIDA, COMIDA, COMIDA, FANTASMAS, PARED},
-            {PARED, COMIDA, PARED, PARED, COMIDA, PARED, COMIDA, PARED, COMIDA, PARED, COMIDA, PARED, PARED, COMIDA, PARED},
-            {PARED, COMIDA, PARED, PARED, COMIDA, PARED, COMIDA, COMIDA, COMIDA, PARED, COMIDA, PARED, PARED, COMIDA, PARED},
-            {PARED, COMIDA, COMIDA, COMIDA, COMIDA, PARED, PARED, VACIO, PARED, PARED, COMIDA, COMIDA, COMIDA, COMIDA, PARED},
-            {PARED, PARED, PARED, COMIDA, PARED, PARED, VACIO, FANTASMAS, VACIO, PARED, PARED, COMIDA, PARED, PARED, PARED},
-            {VACIO, VACIO, PARED, COMIDA, PARED, VACIO, VACIO, VACIO, VACIO, VACIO, PARED, COMIDA, PARED, VACIO, VACIO},
-            {PARED, PARED, PARED, COMIDA, PARED, PARED, PARED, PARED, PARED, PARED, PARED, COMIDA, PARED, PARED, PARED},
-            {PARED, COMIDA, COMIDA, COMIDA, COMIDA, COMIDA, COMIDA, PARED, COMIDA, COMIDA, COMIDA, COMIDA, COMIDA, COMIDA, PARED},
-            {PARED, COMIDA, PARED, PARED, COMIDA, PARED, COMIDA, PARED, COMIDA, PARED, COMIDA, PARED, PARED, COMIDA, PARED},
-            {PARED, FANTASMAS, COMIDA, PARED, COMIDA, COMIDA, COMIDA, PACMAN, COMIDA, COMIDA, COMIDA, PARED, COMIDA, FANTASMAS, PARED},
-            {PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED, PARED}
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,2,2,2,2,2,2,1,2,2,2,2,2,2,1},
+            {1,2,1,1,2,1,2,1,2,1,2,1,1,2,1},
+            {1,2,1,1,2,1,2,2,2,1,2,1,1,2,1},
+            {1,2,2,2,2,1,1,0,1,1,2,2,2,2,1},
+            {1,1,1,2,1,1,0,0,0,1,1,2,1,1,1},
+            {0,0,1,2,1,0,0,0,0,0,1,2,1,0,0},
+            {1,1,1,2,1,1,1,1,1,1,1,2,1,1,1},
+            {1,2,2,2,2,2,2,1,2,2,2,2,2,2,1},
+            {1,2,1,1,2,1,2,1,2,1,2,1,1,2,1},
+            {1,2,2,1,2,2,2,0,2,2,2,1,2,2,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
     }
 
-    // Getter para obtener la matriz desde el renderizador gráfico u otra lógica de tu juego
     public int[][] getMatriz() {
         return matriz;
     }
 
-    // Método de validación actualizado para usar la constante PARED en lugar del número 1
     public boolean esPared(int fila, int columna) {
-        // Control de desbordamiento: si las coordenadas están fuera de la matriz, actúa como pared
-        if (fila < 0 || fila >= matriz.length || columna < 0 || columna >= matriz[0].length) {
+        if (fila < 0 || fila >= matriz.length ||
+            columna < 0 || columna >= matriz[0].length) {
             return true;
         }
+
         return matriz[fila][columna] == PARED;
+    }
+
+    // CAMBIO: se agregó para saber si Pac-Man está sobre comida.
+    public boolean hayComida(int fila, int columna) {
+        if (fila < 0 || fila >= matriz.length ||
+            columna < 0 || columna >= matriz[0].length) {
+            return false;
+        }
+
+        return matriz[fila][columna] == COMIDA;
+    }
+
+    // CAMBIO: se agregó para eliminar comida cuando Pac-Man la come.
+    public void comerComida(int fila, int columna) {
+        if (hayComida(fila, columna)) {
+            matriz[fila][columna] = VACIO;
+        }
+    }
+
+    public int getFilas() {
+        return matriz.length;
+    }
+
+    public int getColumnas() {
+        return matriz[0].length;
     }
 }
