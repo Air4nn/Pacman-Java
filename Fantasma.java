@@ -1,85 +1,108 @@
+package com.mycompany.pacman;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Fantasma extends Entidad implements Runnable {
+public class Fantasma extends Personaje implements Runnable {
 
     private boolean activo;
-    private String direccionActual;
     private Random rand;
+    private int[][] mapa;
 
-    public Fantasma(int x, int y) {
+    // CAMBIO: ahora Fantasma hereda de Personaje, no de Entidad.
+    // CAMBIO: recibe el mapa en el constructor para no depender de Game.mapa.
+    public Fantasma(int x, int y, int[][] mapa) {
         super(x, y, 1);
+        this.mapa = mapa;
         this.activo = true;
         this.rand = new Random();
 
-        // dirección inicial aleatoria
-        String[] dirs = {"ARRIBA", "ABAJO", "IZQUIERDA", "DERECHA"};
-        this.direccionActual = dirs[rand.nextInt(4)];
+        String[] direcciones = {"ARRIBA", "ABAJO", "IZQUIERDA", "DERECHA"};
+        this.direccionActual = direcciones[rand.nextInt(direcciones.length)];
     }
 
     @Override
     public void mover(int[][] mapa) {
 
-        // si no puede seguir, cambiar dirección
         if (!puedeMover(mapa, direccionActual)) {
             direccionActual = obtenerDireccionValida(mapa);
         }
 
-        // cambio aleatorio ocasional (para que no sea muy predecible)
         if (rand.nextDouble() < 0.2) {
             direccionActual = obtenerDireccionValida(mapa);
         }
 
-        int nuevaX = x;
-        int nuevaY = y;
-
-        switch (direccionActual) {
-            case "ARRIBA": nuevaY--; break;
-            case "ABAJO": nuevaY++; break;
-            case "IZQUIERDA": nuevaX--; break;
-            case "DERECHA": nuevaX++; break;
-        }
-
         if (puedeMover(mapa, direccionActual)) {
-            x = nuevaX;
-            y = nuevaY;
+            switch (direccionActual) {
+                case "ARRIBA":
+                    y--;
+                    break;
+                case "ABAJO":
+                    y++;
+                    break;
+                case "IZQUIERDA":
+                    x--;
+                    break;
+                case "DERECHA":
+                    x++;
+                    break;
+            }
         }
     }
 
-    // validar si puede moverse
     private boolean puedeMover(int[][] mapa, String direccion) {
 
         int nuevaX = x;
         int nuevaY = y;
 
         switch (direccion) {
-            case "ARRIBA": nuevaY--; break;
-            case "ABAJO": nuevaY++; break;
-            case "IZQUIERDA": nuevaX--; break;
-            case "DERECHA": nuevaX++; break;
+            case "ARRIBA":
+                nuevaY--;
+                break;
+            case "ABAJO":
+                nuevaY++;
+                break;
+            case "IZQUIERDA":
+                nuevaX--;
+                break;
+            case "DERECHA":
+                nuevaX++;
+                break;
         }
 
-        // validar límites
         if (nuevaY < 0 || nuevaY >= mapa.length ||
             nuevaX < 0 || nuevaX >= mapa[0].length) {
             return false;
         }
 
-        return mapa[nuevaY][nuevaX] != 1;
+        // CAMBIO: se usa Mapa.PARED en vez de 1.
+        return mapa[nuevaY][nuevaX] != Mapa.PARED;
     }
 
-    // obtener dirección válida aleatoria
     private String obtenerDireccionValida(int[][] mapa) {
 
         List<String> direcciones = new ArrayList<>();
 
-        if (puedeMover(mapa, "ARRIBA")) direcciones.add("ARRIBA");
-        if (puedeMover(mapa, "ABAJO")) direcciones.add("ABAJO");
-        if (puedeMover(mapa, "IZQUIERDA")) direcciones.add("IZQUIERDA");
-        if (puedeMover(mapa, "DERECHA")) direcciones.add("DERECHA");
+        if (puedeMover(mapa, "ARRIBA")) {
+            direcciones.add("ARRIBA");
+        }
 
-        if (direcciones.isEmpty()) return direccionActual;
+        if (puedeMover(mapa, "ABAJO")) {
+            direcciones.add("ABAJO");
+        }
+
+        if (puedeMover(mapa, "IZQUIERDA")) {
+            direcciones.add("IZQUIERDA");
+        }
+
+        if (puedeMover(mapa, "DERECHA")) {
+            direcciones.add("DERECHA");
+        }
+
+        if (direcciones.isEmpty()) {
+            return direccionActual;
+        }
 
         return direcciones.get(rand.nextInt(direcciones.size()));
     }
@@ -87,10 +110,12 @@ public class Fantasma extends Entidad implements Runnable {
     @Override
     public void run() {
         while (activo) {
-            mover(Game.mapa);
+            mover(mapa);
+
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
+                activo = false;
                 Thread.currentThread().interrupt();
             }
         }
