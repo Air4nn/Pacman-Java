@@ -49,6 +49,25 @@ public class Mapa {
 
         return matriz[fila][columna] == COMIDA;
     }
+    // Verifica si todavía queda comida en el mapa
+    public boolean quedaComida() {
+
+            // Recorre todas las filas
+            for (int fila = 0; fila < matriz.length; fila++) {
+
+                // Recorre todas las columnas
+                for (int columna = 0; columna < matriz[fila].length; columna++) {
+
+                    // Si encuentra una comida, todavía no ha terminado el juego
+                    if (matriz[fila][columna] == COMIDA) {
+                    return true;
+                    }
+                }
+            }
+
+            // Si no encontró comida, el jugador ganó
+            return false;
+    }
 
     // CAMBIO: se agregó para eliminar comida cuando Pac-Man la come.
     public void comerComida(int fila, int columna) {
