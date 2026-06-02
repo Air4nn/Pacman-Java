@@ -19,32 +19,32 @@ public class Fantasma extends Personaje {
 
         int direccion = (int)(Math.random() * 4);
 
-        // ARRIBA
+        // Arriba
         if (direccion == 0) {
             nuevaY--;
         }
 
-        // ABAJO
+        // Abajo
         if (direccion == 1) {
             nuevaY++;
         }
 
-        // IZQUIERDA
+        // Izquierda
         if (direccion == 2) {
             nuevaX--;
         }
 
-        // DERECHA
+        // Derecha
         if (direccion == 3) {
             nuevaX++;
         }
 
-        // VALIDAR PARED
+        // Validar pared
         if (mapa[nuevaY][nuevaX] != 1) {
 
             boolean ocupado = false;
 
-            // VALIDAR COLISIÓN CON OTROS FANTASMAS
+            // Validar choque con otros fantasmas
             for (int i = 0; i < fantasmas.length; i++) {
 
                 if (fantasmas[i] != this) {
@@ -57,7 +57,7 @@ public class Fantasma extends Personaje {
                 }
             }
 
-            // SI NO ESTÁ OCUPADO, SE MUEVE
+            // Si no esta ocupado se mueve
             if (ocupado == false) {
                 x = nuevaX;
                 y = nuevaY;
