@@ -60,6 +60,12 @@ public class Pacman extends Personaje {
                 break;
         }
 
+        // Comer puntos (Agregado nuevo)
+        if (mapa[y][x] == Mapa.PUNTO) {
+            sumarPuntos(10);
+            mapa[y][x] = Mapa.VACIO;
+        }
+
         if (nuevaY < 0 || nuevaY >= mapa.length ||
             nuevaX < 0 || nuevaX >= mapa[0].length) {
             return false;
