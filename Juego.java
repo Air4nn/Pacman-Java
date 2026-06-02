@@ -13,81 +13,76 @@ public class Juego {
         // Crear a Pac-Man
         Pacman pacman = new Pacman(1, 1);
 
-        // Crear el fantasma
-        Fantasma fantasma = new Fantasma(13, 1, mapa.getMatriz());
+        // Lista de fantasmas (Nuevo)
+        Fantasma[] fantasmas = new Fantasma[3];
 
-        // Crear el panel donde se dibuja el juego
-        PanelJuego panel = new PanelJuego(mapa, pacman, fantasma);
+        fantasmas[0] = new Fantasma(13, 1, mapa.getMatriz());
+        fantasmas[1] = new Fantasma(13, 3, mapa.getMatriz());
+        fantasmas[2] = new Fantasma(11, 1, mapa.getMatriz());
+
+        // Crear el panel (MModifique esto)
+        PanelJuego panel = new PanelJuego(mapa, pacman, fantasmas);
 
         // Crear la ventana
         JFrame ventana = new JFrame("Pac-Man");
 
-        // Configuración de la ventana
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Agregar el panel a la ventana
         ventana.add(panel);
-
-        // Ajusta automáticamente el tamaño de la ventana
         ventana.pack();
-
         ventana.setResizable(false);
-
         ventana.setLocationRelativeTo(null);
 
-        // Agregar control del teclado
+        // Control teclado
         ventana.addKeyListener(new ControlTeclado(pacman));
 
-        // Mostrar ventana
         ventana.setVisible(true);
 
-        // Indica si el jugador ganó
         boolean juegoGanado = false;
 
         // GAME LOOP
-        // Se ejecuta constantemente mientras el juego está abierto
         while (true) {
 
-            // Si el jugador ganó, se actualiza la pantalla y se detiene el ciclo
             if (juegoGanado) {
                 panel.repaint();
                 break;
             }
 
-            // Mueve a Pac-Man según la dirección actual
+            // PAacman
             pacman.mover(mapa.getMatriz());
 
-            // Mueve al fantasma automáticamente
-            fantasma.mover(mapa.getMatriz());
+            // Mover a los fantasmas (Nuevo)
+            for (int i = 0; i < fantasmas.length; i++) {
+                fantasmas[i].mover(mapa.getMatriz(), fantasmas);
+            }
 
-            // Verifica si Pac-Man está sobre una comida
+            // Comida
             if (mapa.hayComida(pacman.getY(), pacman.getX())) {
 
-                // Elimina la comida del mapa
                 mapa.comerComida(pacman.getY(), pacman.getX());
-
-                // Suma 10 puntos al puntaje de Pac-Man
                 pacman.sumarPuntos(10);
 
-                // Verifica si ya no queda comida
                 if (!mapa.quedaComida()) {
 
-                    // Cambia el estado del juego a ganado
                     juegoGanado = true;
-
-                    // Le avisa al panel que debe mostrar el mensaje de victoria
                     panel.setJuegoGanado(true);
 
-                    // Mensaje en consola
                     System.out.println("¡Ganaste!");
                 }
             }
 
-            // Redibuja el panel para actualizar el mapa, Pac-Man, fantasma y puntaje
+            // Choque de fantasmas (Nuevo)
+            for (int i = 0; i < fantasmas.length; i++) {
+
+                if (fantasmas[i].getX() == pacman.getX() &&
+                    fantasmas[i].getY() == pacman.getY()) {
+
+                    System.out.println("💀 Pacman fue atrapado");
+                }
+            }
+
             panel.repaint();
 
             try {
-                // Controla la velocidad del juego
                 Thread.sleep(150);
             } catch (InterruptedException e) {
                 e.printStackTrace();
