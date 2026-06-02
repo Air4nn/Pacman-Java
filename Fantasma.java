@@ -1,127 +1,176 @@
 package com.mycompany.pacman;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-public class Fantasma extends Personaje implements Runnable {
+public class Fantasma extends Personaje {
 
-    private boolean activo;
-    private Random rand;
-    private int[][] mapa;
+    private Random random = new Random();
 
-    // CAMBIO: ahora Fantasma hereda de Personaje, no de Entidad.
-    // CAMBIO: recibe el mapa en el constructor para no depender de Game.mapa.
-    public Fantasma(int x, int y, int[][] mapa) {
+    public Fantasma(int x, int y) {
         super(x, y, 1);
-        this.mapa = mapa;
-        this.activo = true;
-        this.rand = new Random();
-
-        String[] direcciones = {"ARRIBA", "ABAJO", "IZQUIERDA", "DERECHA"};
-        this.direccionActual = direcciones[rand.nextInt(direcciones.length)];
+        this.direccionActual = "IZQUIERDA";
+        this.direccionDeseada = "IZQUIERDA";
     }
 
-    @Override
-    public void mover(int[][] mapa) {
-
-        if (!puedeMover(mapa, direccionActual)) {
-            direccionActual = obtenerDireccionValida(mapa);
-        }
-
-        if (rand.nextDouble() < 0.2) {
-            direccionActual = obtenerDireccionValida(mapa);
-        }
-
-        if (puedeMover(mapa, direccionActual)) {
-            switch (direccionActual) {
-                case "ARRIBA":
-                    y--;
-                    break;
-                case "ABAJO":
-                    y++;
-                    break;
-                case "IZQUIERDA":
-                    x--;
-                    break;
-                case "DERECHA":
-                    x++;
-                    break;
-            }
-        }
-    }
-
-    private boolean puedeMover(int[][] mapa, String direccion) {
+    public void mover(int[][] mapa, Fantasma[] fantasmas) {
 
         int nuevaX = x;
         int nuevaY = y;
 
-        switch (direccion) {
-            case "ARRIBA":
-                nuevaY--;
-                break;
-            case "ABAJO":
-                nuevaY++;
-                break;
-            case "IZQUIERDA":
-                nuevaX--;
-                break;
-            case "DERECHA":
-                nuevaX++;
-                break;
+        int direccion = (int)(Math.random() * 4);
+
+        // ARRIBA
+        if (direccion == 0) {
+            nuevaY--;
         }
 
-        if (nuevaY < 0 || nuevaY >= mapa.length ||
-            nuevaX < 0 || nuevaX >= mapa[0].length) {
-            return false;
+        // ABAJO
+        if (direccion == 1) {
+            nuevaY++;
         }
 
-        // CAMBIO: se usa Mapa.PARED en vez de 1.
-        return mapa[nuevaY][nuevaX] != Mapa.PARED;
-    }
-
-    private String obtenerDireccionValida(int[][] mapa) {
-
-        List<String> direcciones = new ArrayList<>();
-
-        if (puedeMover(mapa, "ARRIBA")) {
-            direcciones.add("ARRIBA");
+        // IZQUIERDA
+        if (direccion == 2) {
+            nuevaX--;
         }
 
-        if (puedeMover(mapa, "ABAJO")) {
-            direcciones.add("ABAJO");
+        // DERECHA
+        if (direccion == 3) {
+            nuevaX++;
         }
 
-        if (puedeMover(mapa, "IZQUIERDA")) {
-            direcciones.add("IZQUIERDA");
-        }
+        // VALIDAR PARED
+        if (mapa[nuevaY][nuevaX] != 1) {
 
-        if (puedeMover(mapa, "DERECHA")) {
-            direcciones.add("DERECHA");
-        }
+            boolean ocupado = false;
 
-        if (direcciones.isEmpty()) {
-            return direccionActual;
-        }
+            // VALIDAR COLISIÓN CON OTROS FANTASMAS
+            for (int i = 0; i < fantasmas.length; i++) {
 
-        return direcciones.get(rand.nextInt(direcciones.size()));
-    }
+                if (fantasmas[i] != this) {
 
-    @Override
-    public void run() {
-        while (activo) {
-            mover(mapa);
+                    if (fantasmas[i].getX() == nuevaX &&
+                        fantasmas[i].getY() == nuevaY) {
 
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                activo = false;
-                Thread.currentThread().interrupt();
+                        ocupado = true;
+                    }
+                }
+            }
+
+            // SI NO ESTÁ OCUPADO, SE MUEVE
+            if (ocupado == false) {
+                x = nuevaX;
+                y = nuevaY;
             }
         }
     }
+        
 
-    public void detener() {
-        activo = false;
+
+    @Override
+    public void mover(int[][] mapa) {
+        mover(mapa, new Fantasma[0]);
+    }
+
+    private void moverEnDireccion() {
+
+        if (direccionActual.equals("ARRIBA")) {
+            y = y - 1;
+        }
+
+        if (direccionActual.equals("ABAJO")) {
+            y = y + 1;
+        }
+
+        if (direccionActual.equals("IZQUIERDA")) {
+            x = x - 1;
+        }
+
+        if (direccionActual.equals("DERECHA")) {
+            x = x + 1;
+        }
+    }
+
+    private void cambiarDireccionAleatoria() {
+
+        int opcion = random.nextInt(4);
+
+        if (opcion == 0) {
+            direccionActual = "ARRIBA";
+        }
+
+        if (opcion == 1) {
+            direccionActual = "ABAJO";
+        }
+
+        if (opcion == 2) {
+            direccionActual = "IZQUIERDA";
+        }
+
+        if (opcion == 3) {
+            direccionActual = "DERECHA";
+        }
+    }
+
+    private boolean puedeMover(int[][] mapa, String direccion, Fantasma[] fantasmas) {
+
+        int nuevaX = x;
+        int nuevaY = y;
+
+        if (direccion.equals("ARRIBA")) {
+            nuevaY = nuevaY - 1;
+        }
+
+        if (direccion.equals("ABAJO")) {
+            nuevaY = nuevaY + 1;
+        }
+
+        if (direccion.equals("IZQUIERDA")) {
+            nuevaX = nuevaX - 1;
+        }
+
+        if (direccion.equals("DERECHA")) {
+            nuevaX = nuevaX + 1;
+        }
+
+        // Limites
+        if (nuevaY < 0) {
+            return false;
+        }
+
+        if (nuevaY >= mapa.length) {
+            return false;
+        }
+
+        if (nuevaX < 0) {
+            return false;
+        }
+
+        if (nuevaX >= mapa[0].length) {
+            return false;
+        }
+
+        // Pared
+        if (mapa[nuevaY][nuevaX] == Mapa.PARED) {
+            return false;
+        }
+
+        // Metodo para que no choque con otros fantasmas
+        for (int i = 0; i < fantasmas.length; i++) {
+
+            Fantasma f = fantasmas[i];
+
+            if (f != this) {
+
+                if (f.getX() == nuevaX) {
+
+                    if (f.getY() == nuevaY) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }
