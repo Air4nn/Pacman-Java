@@ -195,7 +195,9 @@ java Main
 ---
 
 ## 📅 Entregas
+
 🟡 Avance (70%): 3 de junio 2026
+
 🟢 Final (100%): 10 de junio 2026
 
 ---
