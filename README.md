@@ -27,7 +27,7 @@ Desarrollar un videojuego funcional tipo Pac-Man utilizando Java y buenas práct
 - Aplicar **encapsulamiento, herencia, polimorfismo y abstracción**  
 - Implementar arquitectura **Modelo - Vista - Controlador (MVC)**  
 - Crear una interfaz gráfica con **Java Swing**  
-- Utilizar **hilos (Threads)** para elementos dinámicos  
+- Utilizar **hilos** para elementos dinámicos  
 - Diseñar el sistema con **diagramas UML**  
 
 ---
