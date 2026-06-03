@@ -3,6 +3,13 @@
 
 ---
 
+## 👨‍💻 Autores
+
+- Airann Estiben Yepes Barrera 
+
+- Esteban Enrique Gonzalez Guzman 
+
+---
 ## 📌 Descripción del Proyecto
 
 Este proyecto consiste en el desarrollo del clásico videojuego **Pac-Man**, implementado en **Java**, aplicando los principios fundamentales de la **Programación Orientada a Objetos (POO)**, arquitectura **MVC**, y manejo de **concurrencia con hilos**.
@@ -29,13 +36,13 @@ Desarrollar un videojuego funcional tipo Pac-Man utilizando Java y buenas práct
 
 ### 🧭 Menú Principal
 - ▶️ Iniciar partida  
-- ⏸️ Pausar / Reanudar  
+- ⏸️ Pausar
 - 🔄 Reiniciar  
 - ❌ Salir  
 
 ### 🧱 Laberinto
 - Mapa con paredes  
-- Distribución de puntos (pellets)  
+- Distribución de puntos 
 - Movimiento libre dentro del laberinto  
 
 ### 😃 Pac-Man
@@ -44,7 +51,7 @@ Desarrollar un videojuego funcional tipo Pac-Man utilizando Java y buenas práct
 - Colisiones con paredes  
 
 ### 👻 Fantasmas
-- Mínimo 2 enemigos  
+- 4 enemigos de color: amarillo, rojo, azul, rosado
 - Movimiento automático  
 
 ### 🏆 Sistema de Puntuación
@@ -162,22 +169,10 @@ Desarrollada con **Java Swing**:
 
 ---
 
-## 📊 Diagramas UML
-
-### 📌 Incluye:
-- Diagrama de clases (obligatorio)  
-- Relaciones, herencia y métodos  
-
-### ⭐ Opcional:
-- Casos de uso  
-- Secuencia  
-
----
-
 ## ⚙️ Requisitos del Sistema
 
 - Java JDK 8 o superior  
-- IDE recomendado: IntelliJ / NetBeans / Eclipse  
+- IDE recomendado: IntelliJ / NetBeans / Eclipse / Visual Studio Code
 
 ---
 
@@ -202,13 +197,6 @@ java Main
 ## 📅 Entregas
 🟡 Avance (70%): 3 de junio 2026
 🟢 Final (100%): 10 de junio 2026
-
----
-
-## 👨‍💻 Autores
-Nombre: Airann Estiben Yepes Barrera 
-
-Nombre: Esteban Enrique Gonzalez Guzman 
 
 ---
 
