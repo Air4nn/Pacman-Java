@@ -51,8 +51,8 @@ Desarrollar un videojuego funcional tipo Pac-Man utilizando Java y buenas práct
 - Colisiones con paredes  
 
 ### 👻 Fantasmas
-- 4 enemigos de color: amarillo, rojo, azul, rosado
-- Movimiento automático  
+- 4 enemigos de color: naranja, rojo, azul, rosado
+- Movimiento aleatorio y automatico 
 
 ### 🏆 Sistema de Puntuación
 - Conteo de puntos  
