@@ -1,6 +1,12 @@
 # 🟡 PAC-MAN EN JAVA 🟡  
 ### 🎮 Proyecto Final – Programación Orientada a Objetos
 
+Informe Tecnico del proyecto en formato PDF:
+
+https://docs.google.com/document/d/1gWd4hpk6GUwlcqSvIQufwGmtQs2k2Lh_E8RApbdUsnE/edit?usp=sharing
+
+Diagramas de clases
+
 ---
 
 ## 👨‍💻 Autores
