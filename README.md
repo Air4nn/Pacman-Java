@@ -84,7 +84,8 @@ Desarrollar un videojuego funcional tipo Pac-Man utilizando Java y buenas práct
 ┃ ┗ 📜 Juego.java  
 ┣ 📂 com.mycompany.pacman.controlador  
 ┃ ┣ 📜 ControlTeclado.java  
-┃ ┗ 📜 ControladorJuego.java  
+┃ ┗ 📜 ControladorJuego.java
+┃ ┗ 📜 HiloFantasma.java  
 ┣ 📂 com.mycompany.pacman.modelo  
 ┃ ┣ 📜 Fantasma.java  
 ┃ ┣ 📜 Mapa.java  
