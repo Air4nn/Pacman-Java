@@ -1,0 +1,11 @@
+com\mycompany\pacman\modelo\GestorPuntaje.class
+com\mycompany\pacman\controlador\HiloFantasma.class
+com\mycompany\pacman\JuegoMain.class
+com\mycompany\pacman\vista\PanelJuego.class
+com\mycompany\pacman\modelo\Personaje.class
+com\mycompany\pacman\modelo\Fantasma.class
+com\mycompany\pacman\modelo\Pacman.class
+com\mycompany\pacman\controlador\ControlTeclado.class
+com\mycompany\pacman\modelo\Mapa.class
+com\mycompany\pacman\vista\VentanaJuego.class
+com\mycompany\pacman\controlador\ControladorJuego.class
